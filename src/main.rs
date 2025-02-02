@@ -1,3 +1,9 @@
+use shared_spendings::*;
+
+
+
 fn main() {
-    println!("Hello, world!");
+    // let record = Record::new(2.2);
+    do_work();
+    // println!("myrecord {}", record);
 }
