@@ -2,7 +2,7 @@ use crate::record::record::{NewRecord, Record};
 use diesel::prelude::*;
 use crate::database_connection::databse_connetion::establish_connection;
 
-pub fn get_all_records() {
+pub fn get_all() {
     use crate::schema::record::dsl::*;
 
     let connection = &mut establish_connection();
@@ -18,7 +18,27 @@ pub fn get_all_records() {
     }
 }
 
-pub fn add_record(amount: f64) -> Record{
+pub fn get_one(id: i64) -> Option<Record> {
+    use crate::schema::record::dsl::record;
+    let connection = &mut establish_connection();
+
+    let rec = record
+        .find(id)
+        .select(Record::as_select())
+        .first(connection)
+        .optional();
+
+    match rec {
+        Ok(Some(rec)) => Some(rec),
+        Ok(None) => None,
+        Err(_) => {
+            println!("Could not fetch record");
+            None
+        }
+    }
+}
+
+pub fn add(amount: f64) -> Record{
     use crate::schema::record;
     let connection = &mut establish_connection();
     let new_record = NewRecord::new(amount);
@@ -30,7 +50,7 @@ pub fn add_record(amount: f64) -> Record{
         .expect("Error adding new record to database.")
 }
 
-pub fn edit_record_amount(id: i64, new_amount: f64) -> Record {
+pub fn edit_amount(id: i64, new_amount: f64) -> Record {
     use crate::schema::record::dsl::{record, amount};
 
     let connection = &mut establish_connection();
@@ -39,4 +59,13 @@ pub fn edit_record_amount(id: i64, new_amount: f64) -> Record {
         .returning(Record::as_returning())
         .get_result(connection)
         .expect("Could not update record")
+}
+
+pub fn delete_one(record_id: i64) -> usize {
+    use crate::schema::record::dsl::*;
+    let connection = &mut establish_connection();
+
+    diesel::delete(record.filter(id.eq(record_id)))
+        .execute(connection)
+        .expect("Error deleting records")
 }

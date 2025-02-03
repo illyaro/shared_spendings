@@ -62,6 +62,7 @@ impl<'a> Sum<&'a Record> for f64 {
 #[diesel(table_name = crate::schema::record)]
 pub struct NewRecord {
     amount: f64
+    // timestamp: 
 }
 
 impl NewRecord {
