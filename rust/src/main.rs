@@ -4,6 +4,7 @@ use shared_spendings::*;
 
 fn main() {
     // let record = Record::new(2.2);
-    do_work();
+    // do_work();
+    try_db();
     // println!("myrecord {}", record);
 }

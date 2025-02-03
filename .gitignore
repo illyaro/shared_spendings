@@ -1,1 +1,8 @@
-/target
+# Binaries
+**/target
+
+# Environmental variables
+**/.env
+
+# Docker
+**/.dockerignore
