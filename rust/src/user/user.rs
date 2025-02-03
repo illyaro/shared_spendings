@@ -2,8 +2,7 @@ use std::fmt::Display;
 
 use diesel::prelude::*;
 
-#[derive(Debug, Default)]
-#[derive(Queryable, Selectable, Insertable)]
+#[derive(Debug, Default, Queryable, Selectable, Insertable)]
 #[diesel(table_name = crate::schema::username)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct User {
@@ -26,11 +25,11 @@ impl User {
     pub fn get_id(&self) -> &str {
         &self.id
     }
-    
+
     pub fn get_email(&self) -> &str {
         &self.email
     }
-    
+
     pub fn get_photo(&self) -> &str {
         &self.picture
     }
@@ -40,8 +39,12 @@ impl User {
     }
 }
 
-impl Display for User{
+impl Display for User {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:25}{} with email: {}, ", &self.id, &self.user_name, &self.email)
+        write!(
+            f,
+            "{:25}{} with email: {}, ",
+            &self.id, &self.user_name, &self.email
+        )
     }
 }

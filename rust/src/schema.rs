@@ -25,7 +25,4 @@ diesel::table! {
 
 diesel::joinable!(record -> username (user_id));
 
-diesel::allow_tables_to_appear_in_same_query!(
-    record,
-    username,
-);
+diesel::allow_tables_to_appear_in_same_query!(record, username,);

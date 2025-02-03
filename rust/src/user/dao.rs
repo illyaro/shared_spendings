@@ -61,7 +61,7 @@ pub fn update(user: User) -> Option<User> {
         .set((
             email.eq(user.get_email()),
             picture.eq(user.get_photo()),
-            user_name.eq(user.get_name())
+            user_name.eq(user.get_name()),
         ))
         .returning(User::as_returning())
         .get_result(connection);

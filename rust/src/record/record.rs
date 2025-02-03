@@ -1,16 +1,15 @@
-use std::{fmt::Display, iter::Sum};
-use diesel::prelude::*;
 use chrono::NaiveDateTime;
+use diesel::prelude::*;
+use std::{fmt::Display, iter::Sum};
 
-#[derive(Debug, Default)]
-#[derive(Queryable, Selectable)]
+#[derive(Debug, Default, Queryable, Selectable)]
 #[diesel(table_name = crate::schema::record)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
-pub struct Record{
+pub struct Record {
     id: i64,
     user_id: String,
     amount: f64,
-    dt: NaiveDateTime
+    dt: NaiveDateTime,
 }
 
 impl Record {
@@ -25,7 +24,7 @@ impl Record {
         }
     }
 
-    pub fn new_clone(record: &Record) -> Self{
+    pub fn new_clone(record: &Record) -> Self {
         Self {
             id: 0,
             user_id: record.user_id.clone(),
@@ -33,20 +32,23 @@ impl Record {
             dt: record.dt,
         }
     }
-    
+
     pub fn edit(&mut self, amount: f64) {
         self.amount = amount;
     }
 
-    pub fn get_amount(&self) -> f64{
+    pub fn get_amount(&self) -> f64 {
         self.amount
     }
-
 }
 
 impl Display for Record {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "ID: {:10}, {:23}, Amount: {}", self.id, self.dt, self.amount)
+        write!(
+            f,
+            "ID: {:10}, {:23}, Amount: {}",
+            self.id, self.dt, self.amount
+        )
     }
 }
 
@@ -70,7 +72,7 @@ impl NewRecord {
         Self {
             user_id,
             amount,
-            dt
+            dt,
         }
     }
 }

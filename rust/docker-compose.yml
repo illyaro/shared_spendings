@@ -1,7 +1,7 @@
 services:
   database:
     container_name: postgresql-1
-    build: 
+    build:
       context: ./db
     ports:
       - "5432:5432"
