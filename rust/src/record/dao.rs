@@ -1,21 +1,33 @@
-use crate::record::record::{NewRecord, Record};
-use diesel::prelude::*;
 use crate::database_connection::databse_connetion::establish_connection;
+use crate::record::record::{NewRecord, Record};
+use chrono::NaiveDateTime;
+use diesel::prelude::*;
 
-pub fn get_all() {
+pub fn get_all() -> Vec<Record> {
     use crate::schema::record::dsl::*;
 
     let connection = &mut establish_connection();
-    let result = record
-        .limit(5)
+    record
         .select(Record::as_select())
         .load(connection)
-        .expect("Error loading records");
+        .expect("Error loading records")
+}
 
-    println!("Displaying {} Records", result.len());
-    for rec in result {
-        println!("{}", rec);
-    }
+pub fn get_all_of_user_and_date_interval(
+    usr_id: String,
+    d_from: NaiveDateTime,
+    d_to: NaiveDateTime,
+) -> Vec<Record> {
+    use crate::schema::record::dsl::*;
+
+    let connection = &mut establish_connection();
+    record
+        .filter(user_id.eq(usr_id))
+        .filter(dt.ge(d_from))
+        .filter(dt.le(d_to))
+        .select(Record::as_select())
+        .load(connection)
+        .expect("Error loading records")
 }
 
 pub fn get_one(id: i64) -> Option<Record> {
@@ -38,11 +50,11 @@ pub fn get_one(id: i64) -> Option<Record> {
     }
 }
 
-pub fn add(user_id: String, amount: f64) -> Record{
+pub fn add(user_id: String, amount: f64) -> Record {
     use crate::schema::record;
     let connection = &mut establish_connection();
     let new_record = NewRecord::new(user_id, amount);
-    
+
     diesel::insert_into(record::table)
         .values(&new_record)
         .returning(Record::as_returning())
@@ -51,11 +63,22 @@ pub fn add(user_id: String, amount: f64) -> Record{
 }
 
 pub fn edit_amount(id: i64, new_amount: f64) -> Record {
-    use crate::schema::record::dsl::{record, amount};
+    use crate::schema::record::dsl::{amount, record};
 
     let connection = &mut establish_connection();
     diesel::update(record.find(id))
         .set(amount.eq(new_amount))
+        .returning(Record::as_returning())
+        .get_result(connection)
+        .expect("Could not update record")
+}
+
+pub fn edit_date(id: i64, new_date: NaiveDateTime) -> Record {
+    use crate::schema::record::dsl::{dt, record};
+
+    let connection = &mut establish_connection();
+    diesel::update(record.find(id))
+        .set(dt.eq(new_date))
         .returning(Record::as_returning())
         .get_result(connection)
         .expect("Could not update record")

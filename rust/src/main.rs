@@ -1,7 +1,15 @@
-use shared_spendings::record::dao::*;
+use shared_spendings::record::dao as record;
 
 fn main() {
-    get_all();
-    add(String::from("123"), 14.12);
-    get_all();
+    let mut records = record::get_all();
+    println!("total records: {}", records.len());
+    for r in records{
+        println!("{}", &r);
+    }
+    record::add(String::from("123"), 14.12);
+    records = record::get_all();
+    println!("total records: {}", records.len());
+    for r in records{
+        println!("{}", &r);
+    }
 }

@@ -2,6 +2,7 @@
 // pub mod record;
 pub mod schema;
 pub mod record;
+pub mod user;
 pub mod database_connection;
 
 // pub fn do_work(){
