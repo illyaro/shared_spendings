@@ -2,6 +2,6 @@ use shared_spendings::record::dao::*;
 
 fn main() {
     get_all();
-    add("123", 24.12);
+    add(String::from("123"), 14.12);
     get_all();
 }

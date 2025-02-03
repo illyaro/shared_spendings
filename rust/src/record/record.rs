@@ -1,4 +1,4 @@
-use std::{fmt::Display, iter::Sum, borrow::Cow};
+use std::{fmt::Display, iter::Sum};
 use diesel::prelude::*;
 use chrono::NaiveDateTime;
 
@@ -6,26 +6,26 @@ use chrono::NaiveDateTime;
 #[derive(Queryable, Selectable)]
 #[diesel(table_name = crate::schema::record)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
-pub struct Record<'a>{
+pub struct Record{
     id: i64,
-    user_id: Cow<'a, str>,
+    user_id: String,
     amount: f64,
     dt: NaiveDateTime
 }
 
-impl<'a> Record<'a> {
-    pub fn new(user_id: &'a str, amount: f64) -> Self {
+impl Record {
+    pub fn new(user_id: String, amount: f64) -> Self {
         let id = 0i64;
         let dt = chrono::Local::now().naive_local();
         Self {
             id,
-            user_id: Cow::Borrowed(user_id),
+            user_id,
             amount,
             dt,
         }
     }
 
-    pub fn new_clone(record: &'a Record) -> Self{
+    pub fn new_clone(record: &Record) -> Self{
         Self {
             id: 0,
             user_id: record.user_id.clone(),
@@ -44,31 +44,31 @@ impl<'a> Record<'a> {
 
 }
 
-impl<'a> Display for Record<'a> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl Display for Record {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "ID: {:10}, Amount: {}", self.id, self.amount)
     }
 }
 
-impl<'a> Sum<&'a Record<'a>> for f64 {
-    fn sum<I: Iterator<Item = &'a Record<'a>>>(iter: I) -> f64 {
+impl<'a> Sum<&'a Record> for f64 {
+    fn sum<I: Iterator<Item = &'a Record>>(iter: I) -> f64 {
         iter.fold(0f64, |acc, record| acc + record.amount)
     }
 }
 
 #[derive(Insertable)]
 #[diesel(table_name = crate::schema::record)]
-pub struct NewRecord<'a> {
-    user_id: Cow<'a, str>,
+pub struct NewRecord {
+    user_id: String,
     amount: f64,
     dt: NaiveDateTime,
 }
 
-impl<'a> NewRecord<'a> {
-    pub fn new(user_id: &'a str, amount: f64) -> Self {
+impl NewRecord {
+    pub fn new(user_id: String, amount: f64) -> Self {
         let dt = chrono::Local::now().naive_local();
         Self {
-            user_id: Cow::Borrowed(user_id),
+            user_id,
             amount,
             dt
         }
