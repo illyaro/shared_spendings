@@ -18,7 +18,7 @@ pub fn get_all() {
     }
 }
 
-pub fn get_one(id: i64) -> Option<Record> {
+pub fn get_one<'a>(id: i64) -> Option<Record<'a>> {
     use crate::schema::record::dsl::record;
     let connection = &mut establish_connection();
 
@@ -38,10 +38,10 @@ pub fn get_one(id: i64) -> Option<Record> {
     }
 }
 
-pub fn add(amount: f64) -> Record{
+pub fn add<'a>(user_id: &'a str, amount: f64) -> Record<'a>{
     use crate::schema::record;
     let connection = &mut establish_connection();
-    let new_record = NewRecord::new(amount);
+    let new_record = NewRecord::new(&user_id, amount);
     
     diesel::insert_into(record::table)
         .values(&new_record)
@@ -50,7 +50,7 @@ pub fn add(amount: f64) -> Record{
         .expect("Error adding new record to database.")
 }
 
-pub fn edit_amount(id: i64, new_amount: f64) -> Record {
+pub fn edit_amount<'a>(id: i64, new_amount: f64) -> Record<'a> {
     use crate::schema::record::dsl::{record, amount};
 
     let connection = &mut establish_connection();
