@@ -2,7 +2,7 @@ use std::{fmt::Display, iter::Sum};
 use diesel::prelude::*;
 
 #[derive(Debug, Default)]
-#[derive(Queryable, Selectable, Insertable)]
+#[derive(Queryable, Selectable)]
 #[diesel(table_name = crate::schema::record)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Record{
@@ -57,3 +57,17 @@ impl<'a> Sum<&'a Record> for f64 {
 //         }
 //     }
 // }
+
+#[derive(Insertable)]
+#[diesel(table_name = crate::schema::record)]
+pub struct NewRecord {
+    amount: f64
+}
+
+impl NewRecord {
+    pub fn new(amount: f64) -> Self {
+        Self {
+            amount
+        }
+    }
+}
