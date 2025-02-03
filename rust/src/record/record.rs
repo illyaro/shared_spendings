@@ -46,7 +46,7 @@ impl Record {
 
 impl Display for Record {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "ID: {:10}, Amount: {}", self.id, self.amount)
+        write!(f, "ID: {:10}, {:23}, Amount: {}", self.id, self.dt, self.amount)
     }
 }
 

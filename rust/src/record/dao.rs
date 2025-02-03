@@ -25,6 +25,7 @@ pub fn get_all_of_user_and_date_interval(
         .filter(user_id.eq(usr_id))
         .filter(dt.ge(d_from))
         .filter(dt.le(d_to))
+        .order_by(dt)
         .select(Record::as_select())
         .load(connection)
         .expect("Error loading records")
