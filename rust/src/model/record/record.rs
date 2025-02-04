@@ -1,8 +1,9 @@
 use chrono::NaiveDateTime;
 use diesel::prelude::*;
+use serde::{Deserialize, Serialize};
 use std::{fmt::Display, iter::Sum};
 
-#[derive(Debug, Default, Queryable, Selectable)]
+#[derive(Debug, Default, Queryable, Selectable, Deserialize, Serialize)]
 #[diesel(table_name = crate::model::schema::record)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Record {
