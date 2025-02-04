@@ -1,10 +1,10 @@
-use crate::database_connection::databse_connetion::establish_connection;
-use crate::record::record::{NewRecord, Record};
+use crate::model::database_connection::databse_connetion::establish_connection;
+use crate::model::record::record::{NewRecord, Record};
 use chrono::NaiveDateTime;
 use diesel::prelude::*;
 
 pub fn get_all() -> Vec<Record> {
-    use crate::schema::record::dsl::*;
+    use crate::model::schema::record::dsl::*;
 
     let connection = &mut establish_connection();
     record
@@ -18,7 +18,7 @@ pub fn get_all_of_user_and_date_interval(
     d_from: NaiveDateTime,
     d_to: NaiveDateTime,
 ) -> Vec<Record> {
-    use crate::schema::record::dsl::*;
+    use crate::model::schema::record::dsl::*;
 
     let connection = &mut establish_connection();
     record
@@ -32,7 +32,7 @@ pub fn get_all_of_user_and_date_interval(
 }
 
 pub fn get_one(id: i64) -> Option<Record> {
-    use crate::schema::record::dsl::record;
+    use crate::model::schema::record::dsl::record;
     let connection = &mut establish_connection();
 
     let rec = record
@@ -52,7 +52,7 @@ pub fn get_one(id: i64) -> Option<Record> {
 }
 
 pub fn add(user_id: String, amount: f64) -> Record {
-    use crate::schema::record;
+    use crate::model::schema::record;
     let connection = &mut establish_connection();
     let new_record = NewRecord::new(user_id, amount);
 
@@ -64,7 +64,7 @@ pub fn add(user_id: String, amount: f64) -> Record {
 }
 
 pub fn edit_amount(id: i64, new_amount: f64) -> Record {
-    use crate::schema::record::dsl::{amount, record};
+    use crate::model::schema::record::dsl::{amount, record};
 
     let connection = &mut establish_connection();
     diesel::update(record.find(id))
@@ -75,7 +75,7 @@ pub fn edit_amount(id: i64, new_amount: f64) -> Record {
 }
 
 pub fn edit_date(id: i64, new_date: NaiveDateTime) -> Record {
-    use crate::schema::record::dsl::{dt, record};
+    use crate::model::schema::record::dsl::{dt, record};
 
     let connection = &mut establish_connection();
     diesel::update(record.find(id))
@@ -86,7 +86,7 @@ pub fn edit_date(id: i64, new_date: NaiveDateTime) -> Record {
 }
 
 pub fn delete_one(record_id: i64) -> usize {
-    use crate::schema::record::dsl::*;
+    use crate::model::schema::record::dsl::*;
     let connection = &mut establish_connection();
 
     diesel::delete(record.filter(id.eq(record_id)))

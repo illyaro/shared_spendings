@@ -1,5 +1,5 @@
 use chrono;
-use shared_spendings::record::dao as record;
+use shared_spendings::model::record::dao as record;
 fn main() {
     let user_id = String::from("105273289810024784473");
     let dt_from =

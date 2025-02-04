@@ -3,7 +3,7 @@ use std::fmt::Display;
 use diesel::prelude::*;
 
 #[derive(Debug, Default, Queryable, Selectable, Insertable)]
-#[diesel(table_name = crate::schema::username)]
+#[diesel(table_name = crate::model::schema::username)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct User {
     id: String,

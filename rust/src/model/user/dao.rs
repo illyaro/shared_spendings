@@ -1,9 +1,9 @@
-use crate::database_connection::databse_connetion::establish_connection;
-use crate::user::user::User;
+use crate::model::database_connection::databse_connetion::establish_connection;
+use crate::model::user::user::User;
 use diesel::prelude::*;
 
 pub fn get_all() -> Vec<User> {
-    use crate::schema::username::dsl::*;
+    use crate::model::schema::username::dsl::*;
 
     let connection = &mut establish_connection();
 
@@ -14,7 +14,7 @@ pub fn get_all() -> Vec<User> {
 }
 
 pub fn get_one(id: String) -> Option<User> {
-    use crate::schema::username::dsl::username;
+    use crate::model::schema::username::dsl::username;
 
     let connection = &mut establish_connection();
     let user = username
@@ -34,7 +34,7 @@ pub fn get_one(id: String) -> Option<User> {
 }
 
 pub fn add(user: User) -> Option<User> {
-    use crate::schema::username;
+    use crate::model::schema::username;
 
     let connection = &mut establish_connection();
 
@@ -53,7 +53,7 @@ pub fn add(user: User) -> Option<User> {
 }
 
 pub fn update(user: User) -> Option<User> {
-    use crate::schema::username::dsl::*;
+    use crate::model::schema::username::dsl::*;
 
     let connection = &mut establish_connection();
 
@@ -76,7 +76,7 @@ pub fn update(user: User) -> Option<User> {
 }
 
 pub fn delete(user_id: String) -> usize {
-    use crate::schema::username::dsl::*;
+    use crate::model::schema::username::dsl::*;
 
     let connection = &mut establish_connection();
 
