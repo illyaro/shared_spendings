@@ -1,8 +1,8 @@
 use std::fmt::Display;
-
+use serde::{Deserialize, Serialize};
 use diesel::prelude::*;
 
-#[derive(Debug, Default, Queryable, Selectable, Insertable)]
+#[derive(Debug, Default, Queryable, Selectable, Insertable, Deserialize, Serialize)]
 #[diesel(table_name = crate::model::schema::username)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct User {

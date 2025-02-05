@@ -15,15 +15,15 @@
 //     println!("Total sum: {:.2}", total);
 // }
 use actix_web::{App, HttpServer};
-use shared_spendings::controller::records;
+use shared_spendings::controller::{records, users};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(records::get::get)
-            // .service(echo)
-            // .route("/hey", web::get().to(manual_hello))
+            .service(records::add::add)
+            .service(users::add::add)
     })
     .bind(("127.0.0.1", 8080))?
     .run()
