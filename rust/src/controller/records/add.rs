@@ -2,7 +2,7 @@ use actix_web::{http::header::ContentType, web, HttpResponse, post};
 use futures::StreamExt;
 use crate::model::{misc::Info, record::{dao, record::NewRecord}};
 
-#[post("/records/add")]
+#[post("/records")]
 pub async fn add(mut payload: web::Payload) -> HttpResponse {
     const MAX_SIZE: usize = 262_144; // max payload size is 256k
     let mut body = web::BytesMut::new();

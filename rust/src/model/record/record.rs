@@ -3,7 +3,7 @@ use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{fmt::Display, iter::Sum};
 
-#[derive(Debug, Default, Queryable, Selectable, Deserialize, Serialize)]
+#[derive(Debug, Default, Queryable, AsChangeset, Selectable, Deserialize, Serialize)]
 #[diesel(table_name = crate::model::schema::record)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Record {
@@ -34,16 +34,32 @@ impl Record {
         }
     }
 
+    pub fn get_id(&self) -> i64 {
+        self.id
+    }
+
+    pub fn get_amount(&self) -> f64 {
+        self.amount
+    }
+
     pub fn set_amount(&mut self, amount: f64) {
         self.amount = amount;
+    }
+
+    pub fn get_dt(&self) -> NaiveDateTime {
+        self.dt
     }
 
     pub fn set_dt(&mut self, dt: NaiveDateTime) {
         self.dt = dt; // chrono::Local::now().naive_local();
     }
 
-    pub fn get_amount(&self) -> f64 {
-        self.amount
+    pub fn get_user_id(&self) -> String {
+        self.user_id.clone()
+    }
+
+    pub fn set_user_id(&mut self, new_id: String) {
+        self.user_id = new_id;
     }
 }
 

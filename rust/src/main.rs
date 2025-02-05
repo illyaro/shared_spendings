@@ -23,6 +23,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(records::get::get)
             .service(records::add::add)
+            .service(records::edit::edit)
             .service(users::add::add)
     })
     .bind(("127.0.0.1", 8080))?
