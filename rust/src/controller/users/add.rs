@@ -3,7 +3,7 @@ use crate::model::user::dao;
 use actix_web::{http::header::ContentType, post, web, HttpResponse};
 use futures::StreamExt;
 
-#[post("/users/add")]
+#[post("/users")]
 pub async fn add(mut payload: web::Payload) -> HttpResponse {
     const MAX_SIZE: usize = 262_144; // max payload size is 256k
 

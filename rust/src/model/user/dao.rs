@@ -75,7 +75,7 @@ pub fn update(user: User) -> Option<User> {
     }
 }
 
-pub fn delete(user_id: String) -> usize {
+pub fn delete(user_id: &str) -> usize {
     use crate::model::schema::username::dsl::*;
 
     let connection = &mut establish_connection();
