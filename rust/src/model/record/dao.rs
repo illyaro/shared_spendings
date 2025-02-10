@@ -1,6 +1,7 @@
 use crate::model::database_connection::databse_connetion::establish_connection;
 use crate::model::record::record::{NewRecord, Record};
 use chrono::NaiveDateTime;
+use diesel::associations::HasTable;
 use diesel::prelude::*;
 
 pub fn get_all() -> Vec<Record> {
@@ -14,21 +15,40 @@ pub fn get_all() -> Vec<Record> {
 }
 
 pub fn get_all_of_user_and_date_interval(
-    usr_id: String,
-    d_from: NaiveDateTime,
-    d_to: NaiveDateTime,
+    usr_id: Option<String>,
+    d_from: Option<NaiveDateTime>,
+    d_to: Option<NaiveDateTime>,
 ) -> Vec<Record> {
     use crate::model::schema::record::dsl::*;
 
     let connection = &mut establish_connection();
-    record
-        .filter(user_id.eq(usr_id))
-        .filter(dt.ge(d_from))
-        .filter(dt.le(d_to))
-        .order_by(dt)
+    let mut query = record::table().into_boxed();
+
+    if let Some(u_id) = usr_id {
+        query = query.filter(user_id.eq(u_id));
+    }
+    if let Some(d_from) = d_from {
+        query = query.filter(dt.ge(d_from));
+    }
+    if let Some(d_to) = d_to {
+        query = query.filter(dt.le(d_to));
+    } 
+    query = query
+        .order_by(dt);
+
+    query
         .select(Record::as_select())
-        .load(connection)
+        .load::<Record>(connection)
         .expect("Error loading records")
+
+    // record
+    //     .filter(user_id.eq(usr_id))
+    //     .filter(dt.ge(d_from))
+    //     .filter(dt.le(d_to))
+    //     .order_by(dt)
+    //     .select(Record::as_select())
+    //     .load(connection)
+    //     .expect("Error loading records")
 }
 
 pub fn get_one(id: i64) -> Option<Record> {
