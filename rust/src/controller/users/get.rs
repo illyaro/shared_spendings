@@ -1,6 +1,9 @@
-use actix_web::{get, http::header::ContentType, web, HttpResponse};
+use crate::{
+    controller::authorization_check::verify_token,
+    model::user::dao::{get_all, get_one},
+};
+use actix_web::{get, http::header::ContentType, web, HttpRequest, HttpResponse};
 use serde::Deserialize;
-use crate::model::user::dao::{get_all, get_one};
 
 #[derive(Deserialize)]
 struct UserId {
@@ -8,7 +11,9 @@ struct UserId {
 }
 
 #[get("/users")]
-pub async fn get(path: web::Query<UserId>) -> HttpResponse {
+pub async fn get(request: HttpRequest, path: web::Query<UserId>) -> HttpResponse {
+    verify_token(request.headers());
+
     let response = match path.into_inner().id {
         Some(id) => {
             if let Some(user) = get_one(id) {
@@ -16,7 +21,7 @@ pub async fn get(path: web::Query<UserId>) -> HttpResponse {
             } else {
                 Vec::new()
             }
-        },
+        }
         None => get_all(),
     };
 

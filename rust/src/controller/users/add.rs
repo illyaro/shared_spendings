@@ -1,12 +1,13 @@
-use crate::model::misc::Info;
 use crate::model::user::dao;
-use actix_web::{http::header::ContentType, post, web, HttpResponse};
+use crate::{controller::authorization_check::verify_token, model::misc::Info};
+use actix_web::{http::header::ContentType, post, web, HttpRequest, HttpResponse};
 use futures::StreamExt;
 
 #[post("/users")]
-pub async fn add(mut payload: web::Payload) -> HttpResponse {
-    const MAX_SIZE: usize = 262_144; // max payload size is 256k
+pub async fn add(request: HttpRequest, mut payload: web::Payload) -> HttpResponse {
+    verify_token(request.headers());
 
+    const MAX_SIZE: usize = 262_144; // max payload size is 256k
     let mut body = web::BytesMut::new();
 
     while let Some(chunk) = payload.next().await {

@@ -1,11 +1,14 @@
 use actix_web::http::header::ContentType;
-use actix_web::{delete, web, HttpResponse};
+use actix_web::{delete, web, HttpRequest, HttpResponse};
 
-use crate::model::record::dao::delete_one;
+use crate::controller::authorization_check::verify_token;
 use crate::model::misc::Info;
+use crate::model::record::dao::delete_one;
 
 #[delete("/records/{id}")]
-pub async fn remove(path: web::Path<(i64, )>) -> HttpResponse {
+pub async fn remove(request: HttpRequest, path: web::Path<(i64,)>) -> HttpResponse {
+    verify_token(request.headers());
+
     let id = path.into_inner().0;
     let res = delete_one(id);
     let msg = format!("Removed {} record with id {}", res, id);

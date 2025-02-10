@@ -1,10 +1,15 @@
-use actix_web::{http::header::ContentType, put, web, HttpResponse};
+use actix_web::{http::header::ContentType, put, web, HttpRequest, HttpResponse};
 use futures::StreamExt;
 
-use crate::model::{misc::Info, user::dao::update};
+use crate::{
+    controller::authorization_check::verify_token,
+    model::{misc::Info, user::dao::update},
+};
 
 #[put("/users")]
-pub async fn edit(mut payload: web::Payload) -> HttpResponse {
+pub async fn edit(request: HttpRequest, mut payload: web::Payload) -> HttpResponse {
+    verify_token(request.headers());
+
     const MAX_SIZE: usize = 262_144; // 256 KB
 
     let mut body = web::BytesMut::new();
