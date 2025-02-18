@@ -1,12 +1,18 @@
 package com.sharedSpendings;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +20,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class AddRecord extends Fragment {
+
+    private OnAddRecordInteractionListener interactionListener;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,6 +55,22 @@ public class AddRecord extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnAddRecordInteractionListener) {
+            interactionListener = (OnAddRecordInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnAddRecordInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        interactionListener = null;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -60,5 +84,29 @@ public class AddRecord extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_record, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+
+        FloatingActionButton btnCloseAddRecord = view.findViewById(R.id.add_new_record_close_button);
+        btnCloseAddRecord.setOnClickListener(v -> {
+            if (interactionListener != null) {
+                interactionListener.onCloseAddRecord();
+            }
+        });
+
+        FloatingActionButton btnSubmitRecord = view.findViewById(R.id.bnt_confirm_new_record);
+        EditText paidAmount = view.findViewById(R.id.new_record_paid_amount);
+        EditText dateTime = view.findViewById(R.id.new_record_datetime);
+
+        btnSubmitRecord.setOnClickListener(v -> {
+            if (interactionListener != null) {
+                String amount = paidAmount.getEditableText().toString();
+                String dt = dateTime.getEditableText().toString();
+                interactionListener.onConfirmSubmission(amount, dt);
+            }
+        });
     }
 }

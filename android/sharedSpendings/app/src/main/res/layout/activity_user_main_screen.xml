@@ -58,12 +58,15 @@
         android:backgroundTint="#3F51B5"/>
     
     <androidx.fragment.app.FragmentContainerView
+        android:name="com.sharedSpendings.AddRecord"
         android:id="@+id/fragment_add_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

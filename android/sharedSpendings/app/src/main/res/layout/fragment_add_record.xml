@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".AddRecord">
+    tools:context=".AddRecord"
+    android:background="#CECECE">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/add_new_record"
         android:layout_width="match_parent"
@@ -19,6 +19,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_new_record_close_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/bnt_close_add_new_record_dialogue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:backgroundTint="#E53935"
+        android:src="@drawable/baseline_close_24"
+        app:maxImageSize="48dp"
+        />
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
@@ -43,12 +57,13 @@
                 android:textSize="25sp" />
 
             <EditText
+                android:id="@+id/new_record_paid_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/edit_text"
                 android:hint="@string/insert_paid_amount"
                 android:importantForAutofill="no"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:padding="8dp"
                 android:textSize="25sp" />
 
@@ -66,6 +81,7 @@
                 android:textSize="25sp" />
 
             <EditText
+                android:id="@+id/new_record_datetime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/edit_text"

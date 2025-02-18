@@ -1,15 +1,20 @@
 package com.sharedSpendings;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentContainerView;
 
-public class UserMainScreen extends AppCompatActivity {
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+public class UserMainScreen extends AppCompatActivity implements OnAddRecordInteractionListener {
     private String userID;
     private String email;
     private String userPhoto;
@@ -27,6 +32,16 @@ public class UserMainScreen extends AppCompatActivity {
         });
 
         extractParameters();
+        activateButtons();
+    }
+
+    private void activateButtons() {
+        FloatingActionButton btnAddRecord = findViewById(R.id.btn_add_record);
+        FragmentContainerView fragmentAddRecord = findViewById(R.id.fragment_add_record);
+        btnAddRecord.setOnClickListener(v -> {
+            fragmentAddRecord.setVisibility(View.VISIBLE);
+            btnAddRecord.setVisibility(View.INVISIBLE);
+        });
     }
 
     private void extractParameters() {
@@ -47,4 +62,24 @@ public class UserMainScreen extends AppCompatActivity {
         TextView tv4 = findViewById(R.id.text4);
         tv4.setText(username);
     }
+
+    // Implements method of the interface OnAddRecordInteractionListener.
+    @Override
+    public void onCloseAddRecord() {
+        FragmentContainerView fragmentAddRecord = findViewById(R.id.fragment_add_record);
+        FloatingActionButton btnAddRecord = findViewById(R.id.btn_add_record);
+        fragmentAddRecord.setVisibility(View.INVISIBLE);
+        btnAddRecord.setVisibility(View.VISIBLE);
+    }
+
+    // Implements method of the interface OnAddRecordInteractionListener.
+    @Override
+    public void onConfirmSubmission(String amount, String datetime) {
+        Toast toast = Toast.makeText(this, String.format("Amount: %s,\t date: %s", amount, datetime), Toast.LENGTH_LONG);
+        toast.show();
+        // TODO implement method adding to the database the data by calling corresponding endpoint.
+
+        this.onCloseAddRecord();
+    }
+
 }
