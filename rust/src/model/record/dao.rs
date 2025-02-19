@@ -71,12 +71,12 @@ pub fn get_one(id: i64) -> Option<Record> {
     }
 }
 
-pub fn add(mut new_record: NewRecord, dt: NaiveDateTime) -> Record {
+pub fn add(new_record: NewRecord) -> Record {
     use crate::model::schema::record;
     let connection = &mut establish_connection();
     // let new_record = NewRecord::new(user_id, amount);
 
-    new_record.set_dt(dt);
+    // new_record.set_dt(dt);
 
     diesel::insert_into(record::table)
         .values(&new_record)

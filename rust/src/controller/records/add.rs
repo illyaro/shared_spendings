@@ -29,14 +29,16 @@ pub async fn add(request: HttpRequest, mut payload: web::Payload) -> HttpRespons
             }
         }
     }
-
+    println!("Before parsing new record");
     let record = match serde_json::from_slice::<NewRecord>(&body) {
         Ok(record) => record,
         Err(err) => return HttpResponse::BadRequest().json(web::Json(Info::new(err.to_string()))),
     };
 
-    let dt = chrono::Local::now().naive_local();
-    let user = dao::add(record, dt);
+    println!("about to add record: {:?}", &record);
+
+    // let dt = chrono::Local::now().naive_local();
+    let user = dao::add(record);
 
     HttpResponse::Ok()
         .insert_header(ContentType::json())

@@ -79,18 +79,18 @@ impl<'a> Sum<&'a Record> for f64 {
     }
 }
 
-#[derive(Insertable, Deserialize)]
+#[derive(Insertable, Deserialize, Debug)]
 #[diesel(table_name = crate::model::schema::record)]
 pub struct NewRecord {
     user_id: String,
     amount: f64,
-    #[serde(skip_deserializing)]
-    dt: Option<NaiveDateTime>,
+    // #[serde(skip_deserializing)]
+    dt: NaiveDateTime,
 }
 
 impl NewRecord {
-    pub fn new(user_id: String, amount: f64) -> Self {
-        let dt = Some(chrono::Local::now().naive_local());
+    pub fn new(user_id: String, amount: f64, dt: NaiveDateTime) -> Self {
+        // let dt = Some(chrono::Local::now().naive_local());
         Self {
             user_id,
             amount,
@@ -99,6 +99,6 @@ impl NewRecord {
     }
 
     pub fn set_dt(&mut self, dt: NaiveDateTime) {
-        self.dt = Some(dt); // chrono::Local::now().naive_local();
+        self.dt = dt; // chrono::Local::now().naive_local();
     }
 }
