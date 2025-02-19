@@ -1,4 +1,4 @@
-package com.sharedSpendings;
+package com.sharedSpendings.newRecord;
 
 public interface OnAddRecordInteractionListener {
     void onCloseAddRecord();

@@ -4,19 +4,22 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.sharedSpendings.OnAddRecordInteractionListener;
 import com.sharedSpendings.R;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -111,6 +114,38 @@ public class AddRecord extends Fragment {
             }
         });
 
+        // Calendar button
+        FloatingActionButton btnSetPurchaseDate = view.findViewById(R.id.btn_set_purchase_date);
+        ConstraintLayout fragmentDatePicker = view.findViewById(R.id.fragment_data_picker);
+        btnSetPurchaseDate.setOnClickListener(v -> {
+            btnCloseAddRecord.setVisibility(View.INVISIBLE);
+            fragmentDatePicker.setVisibility(View.VISIBLE);
+        });
+
+        // Cancel date selection
+        FloatingActionButton btnCancelDateSelection = view.findViewById(R.id.new_record_data_picker_cancel);
+        btnCancelDateSelection.setOnClickListener(v -> {
+            btnCloseAddRecord.setVisibility(View.VISIBLE);
+            fragmentDatePicker.setVisibility(View.INVISIBLE);
+        });
+
+        // Confirm new date selection
+        FloatingActionButton btnConfirmDateSelection = view.findViewById(R.id.new_record_data_picker_confirm);
+        DatePicker datePicker = view.findViewById(R.id.new_record_data_picker);
+        btnConfirmDateSelection.setOnClickListener(v -> {
+            int day = datePicker.getDayOfMonth();
+            int month = datePicker.getMonth();
+            int year = datePicker.getYear();
+            Calendar cal = Calendar.getInstance();
+            cal.set(year, month, day);
+//            df.setCalendar(cal);
+            String formatted = df.format(cal.getTime());
+            dateTime.setText(formatted);
+            // close popup
+            btnCloseAddRecord.setVisibility(View.VISIBLE);
+            fragmentDatePicker.setVisibility(View.INVISIBLE);
+        });
+
         // Submit button handle.
         FloatingActionButton btnSubmitRecord = view.findViewById(R.id.bnt_confirm_new_record);
         EditText paidAmount = view.findViewById(R.id.new_record_paid_amount);
@@ -121,7 +156,7 @@ public class AddRecord extends Fragment {
                 paidAmount.setText(null, TextView.BufferType.EDITABLE);
 
                 String dt = dateTime.getText().toString();
-                dateTime.setText(null);
+                dateTime.setText(daterFormatted);
 
                 interactionListener.onConfirmSubmission(amount, dt);
             }

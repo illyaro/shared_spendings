@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentContainerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.sharedSpendings.newRecord.OnAddRecordInteractionListener;
 
 public class UserMainScreen extends AppCompatActivity implements OnAddRecordInteractionListener {
     private String userID;

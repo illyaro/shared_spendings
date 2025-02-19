@@ -31,15 +31,16 @@
         android:scaleY="0.5"
         android:backgroundTint="#E53935"
         android:src="@drawable/baseline_close_24"
-        app:maxImageSize="48dp"
-        />
+        app:maxImageSize="48dp" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_new_record">
+        app:layout_constraintTop_toBottomOf="@id/add_new_record"
+        android:elevation="0dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -148,5 +149,73 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_data_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#EDE7F6"
+        android:elevation="10dp"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:id="@+id/date_picker_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_purchase_date"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="25sp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <DatePicker
+            android:id="@+id/new_record_data_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date_picker_title"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/new_record_data_picker_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/btn_cancel_data_picker"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/new_record_data_picker"
+            android:src="@drawable/baseline_close_24"
+            app:tint="@null"
+            app:maxImageSize="36dp"
+            android:backgroundTint="@color/red_button"
+            android:layout_marginStart="10dp"
+            android:layout_marginVertical="10dp"
+            />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/new_record_data_picker_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/btn_confirm_data_picker"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/new_record_data_picker"
+            android:src="@drawable/baseline_check_circle_outline_24"
+            app:tint="@null"
+            app:maxImageSize="36dp"
+            android:backgroundTint="@color/purple_button"
+            android:layout_marginEnd="10dp"
+            android:layout_marginVertical="10dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
