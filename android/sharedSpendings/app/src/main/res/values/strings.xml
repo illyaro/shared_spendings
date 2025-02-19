@@ -51,4 +51,6 @@
     <string name="spending_date">Purchase date</string>
     <string name="confirm_adding_new_record">Confirm adding new record</string>
     <string name="bnt_close_add_new_record_dialogue">Close</string>
+    <string name="edit_purchase_date">Edit date</string>
+    <string name="set_purchase_date">Set purchase date</string>
 </resources>

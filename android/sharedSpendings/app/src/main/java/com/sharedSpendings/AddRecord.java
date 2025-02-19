@@ -11,8 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -90,6 +96,14 @@ public class AddRecord extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
+        // Set default date to current.
+        TextView dateTime = view.findViewById(R.id.purchase_date_text_field);
+        Date currentDate = new Date();
+        DateFormat df = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.getDefault());
+        String daterFormatted = df.format(currentDate);
+        dateTime.setText(daterFormatted);
+
+        // Close button handler
         FloatingActionButton btnCloseAddRecord = view.findViewById(R.id.add_new_record_close_button);
         btnCloseAddRecord.setOnClickListener(v -> {
             if (interactionListener != null) {
@@ -97,14 +111,18 @@ public class AddRecord extends Fragment {
             }
         });
 
+        // Submit button handle.
         FloatingActionButton btnSubmitRecord = view.findViewById(R.id.bnt_confirm_new_record);
         EditText paidAmount = view.findViewById(R.id.new_record_paid_amount);
-        EditText dateTime = view.findViewById(R.id.new_record_datetime);
 
         btnSubmitRecord.setOnClickListener(v -> {
             if (interactionListener != null) {
                 String amount = paidAmount.getEditableText().toString();
-                String dt = dateTime.getEditableText().toString();
+                paidAmount.setText(null, TextView.BufferType.EDITABLE);
+
+                String dt = dateTime.getText().toString();
+                dateTime.setText(null);
+
                 interactionListener.onConfirmSubmission(amount, dt);
             }
         });
