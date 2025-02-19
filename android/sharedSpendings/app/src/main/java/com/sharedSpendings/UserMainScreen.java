@@ -15,6 +15,8 @@ import androidx.fragment.app.FragmentContainerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sharedSpendings.newRecord.OnAddRecordInteractionListener;
 
+import java.util.Date;
+
 public class UserMainScreen extends AppCompatActivity implements OnAddRecordInteractionListener {
     private String userID;
     private String email;
@@ -75,8 +77,8 @@ public class UserMainScreen extends AppCompatActivity implements OnAddRecordInte
 
     // Implements method of the interface OnAddRecordInteractionListener.
     @Override
-    public void onConfirmSubmission(String amount, String datetime) {
-        Toast toast = Toast.makeText(this, String.format("Amount: %s,\t date: %s", amount, datetime), Toast.LENGTH_LONG);
+    public void onConfirmSubmission(Double amount, Date datetime) {
+        Toast toast = Toast.makeText(this, String.format("Amount: %.2f,\t date: %s", amount, datetime.toString()), Toast.LENGTH_LONG);
         toast.show();
         // TODO implement method adding to the database the data by calling corresponding endpoint.
 

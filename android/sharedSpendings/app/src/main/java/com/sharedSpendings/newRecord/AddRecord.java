@@ -31,6 +31,7 @@ import java.util.Locale;
 public class AddRecord extends Fragment {
 
     private OnAddRecordInteractionListener interactionListener;
+    private Date dateOfRecord;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,9 +102,9 @@ public class AddRecord extends Fragment {
 
         // Set default date to current.
         TextView dateTime = view.findViewById(R.id.purchase_date_text_field);
-        Date currentDate = new Date();
+        dateOfRecord = new Date();
         DateFormat df = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.getDefault());
-        String daterFormatted = df.format(currentDate);
+        String daterFormatted = df.format(dateOfRecord);
         dateTime.setText(daterFormatted);
 
         // Close button handler
@@ -137,10 +138,11 @@ public class AddRecord extends Fragment {
             int month = datePicker.getMonth();
             int year = datePicker.getYear();
             Calendar cal = Calendar.getInstance();
-            cal.set(year, month, day);
+            cal.set(year, month, day, 13, 0, 0);
 //            df.setCalendar(cal);
             String formatted = df.format(cal.getTime());
             dateTime.setText(formatted);
+            dateOfRecord = cal.getTime();
             // close popup
             btnCloseAddRecord.setVisibility(View.VISIBLE);
             fragmentDatePicker.setVisibility(View.INVISIBLE);
@@ -155,10 +157,10 @@ public class AddRecord extends Fragment {
                 String amount = paidAmount.getEditableText().toString();
                 paidAmount.setText(null, TextView.BufferType.EDITABLE);
 
-                String dt = dateTime.getText().toString();
-                dateTime.setText(daterFormatted);
+//                String dt = dateTime.getText().toString();
+//                dateTime.setText(daterFormatted);
 
-                interactionListener.onConfirmSubmission(amount, dt);
+                interactionListener.onConfirmSubmission(Double.parseDouble(amount), dateOfRecord);
             }
         });
     }
