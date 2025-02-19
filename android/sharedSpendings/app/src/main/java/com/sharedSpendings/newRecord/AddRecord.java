@@ -1,11 +1,10 @@
-package com.sharedSpendings;
+package com.sharedSpendings.newRecord;
 
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +13,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.sharedSpendings.OnAddRecordInteractionListener;
+import com.sharedSpendings.R;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 

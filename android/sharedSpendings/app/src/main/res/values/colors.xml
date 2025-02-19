@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="purple_button">#3F51B5</color>
     <color name="icon_light_green">#B9F6CA</color>
+    <color name="red_button">#F06292</color>
 </resources>

@@ -58,7 +58,7 @@
         android:backgroundTint="#3F51B5"/>
     
     <androidx.fragment.app.FragmentContainerView
-        android:name="com.sharedSpendings.AddRecord"
+        android:name="com.sharedSpendings.newRecord.AddRecord"
         android:id="@+id/fragment_add_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
