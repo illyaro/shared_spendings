@@ -44,11 +44,12 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.legacy.support.v4)
     implementation(libs.recyclerview)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    val fragment_version = "1.8.6"
-    implementation("androidx.fragment:fragment:$fragment_version")
-
+    implementation(libs.fragment)
+    implementation(libs.volley)
+    implementation(libs.gson)
 }

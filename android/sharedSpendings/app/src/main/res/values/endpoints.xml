@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uri_for_add_new_record">http://192.168.18.5:8080/records</string>
+</resources>
