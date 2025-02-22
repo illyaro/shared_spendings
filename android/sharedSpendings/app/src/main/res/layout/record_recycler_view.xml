@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/record_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="32.18"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingTop="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/paid_amount"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/record_amount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/record_amount" />
+
+        <TextView
+            android:id="@+id/record_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toStartOf="@+id/record_profile_picture"
+            app:layout_constraintStart_toEndOf="@+id/record_amount"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/record_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13:22, 12 dec 2025"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/record_profile_picture"
+            app:layout_constraintStart_toEndOf="@+id/record_amount" />
+
+        <ImageView
+            android:id="@+id/record_profile_picture"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/user_profile_picture"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/baseline_android_24"
+            android:layout_marginEnd="7dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

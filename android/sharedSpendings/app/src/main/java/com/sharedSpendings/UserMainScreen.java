@@ -12,6 +12,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,6 +24,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
+import com.sharedSpendings.newRecord.AddRecord;
 import com.sharedSpendings.newRecord.NewRecord;
 import com.sharedSpendings.newRecord.OnAddRecordInteractionListener;
 
@@ -29,11 +32,14 @@ import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserMainScreen extends AppCompatActivity implements OnAddRecordInteractionListener {
+    private RecordAdapter adapter;
     private String userID;
     private String email;
     private String userPhoto;
@@ -52,12 +58,32 @@ public class UserMainScreen extends AppCompatActivity implements OnAddRecordInte
 
         extractParameters();
         activateButtons();
+        initializeRecycleView();
+    }
+
+    private void initializeRecycleView() {
+        RecyclerView recyclerView = findViewById(R.id.records_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        List<NewRecord> recordsToShow = fetchRecords(this.userID);
+        this.adapter = new RecordAdapter(recordsToShow);
+        recyclerView.setAdapter(this.adapter);
+    }
+
+    private List<NewRecord> fetchRecords(String userID) {
+        return new ArrayList<>();
     }
 
     private void activateButtons() {
         FloatingActionButton btnAddRecord = findViewById(R.id.btn_add_record);
         FragmentContainerView fragmentAddRecord = findViewById(R.id.fragment_add_record);
         btnAddRecord.setOnClickListener(v -> {
+
+            AddRecord addRecord = new AddRecord();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_add_record, addRecord)
+                    .commit();
+
             fragmentAddRecord.setVisibility(View.VISIBLE);
             btnAddRecord.setVisibility(View.INVISIBLE);
         });
@@ -110,9 +136,6 @@ public class UserMainScreen extends AppCompatActivity implements OnAddRecordInte
         RequestQueue volleyQueue = Volley.newRequestQueue(UserMainScreen.this);
         String apiEndpoint = getResources().getString(R.string.uri_for_add_new_record);
 
-        Toast toast = Toast.makeText(this, String.format("sendign to: %s, Amount: %.2f,\t date: %s", apiEndpoint, amount, datetime.toString()), Toast.LENGTH_LONG);
-        toast.show();
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 apiEndpoint,
@@ -121,8 +144,11 @@ public class UserMainScreen extends AppCompatActivity implements OnAddRecordInte
                     @Override
                     public void onResponse(JSONObject response) {
                         String responseObj = response.toString();
-                        Toast toast = Toast.makeText(UserMainScreen.this, String.format("Send request successfully to: %s, response: %s", apiEndpoint, responseObj), Toast.LENGTH_LONG);
-                        toast.show();
+                        // TODO add inserted record to the recycler view.
+                        NewRecord insertedRecord = gson.fromJson(responseObj, NewRecord.class);
+                        adapter.addRecord(insertedRecord);
+//                        Toast toast = Toast.makeText(UserMainScreen.this, String.format("Send request successfully to: %s, response: %s", apiEndpoint, insertedRecord.toString()), Toast.LENGTH_LONG);
+//                        toast.show();
                     }
                 },
                 new Response.ErrorListener() {

@@ -20,4 +20,6 @@
     <string name="btn_cancel_data_picker">Cancel</string>
     <string name="btn_confirm_data_picker">Select date</string>
     <string name="select_purchase_date">Select purchase date</string>
+    <string name="paid_amount">amount</string>
+    <string name="user_profile_picture">user profile picture</string>
 </resources>

@@ -17,6 +17,7 @@ volley = "1.2.1"
 
 [libraries]
 fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
+glide = { module = "com.github.bumbtech.glide:glide" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

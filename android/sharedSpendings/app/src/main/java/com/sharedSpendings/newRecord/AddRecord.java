@@ -14,9 +14,11 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sharedSpendings.R;
+import com.sharedSpendings.UserMainScreen;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -164,4 +166,10 @@ public class AddRecord extends Fragment {
             }
         });
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        TextView dateTime = findViewById(R.id.purchase_date_text_field);
+//    }
 }
